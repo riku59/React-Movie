@@ -1,0 +1,22 @@
+.search-movie {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+  input {
+    width: 350px;
+    border-radius: 10px 10px 0 0;
+    border: none;
+    text-align: center;
+  }
+  button {
+    background: $color1;
+    width: 350px;
+    border-radius: 0 0 10px 10px;
+    border: none;
+    &:hover {
+      background: $color2;
+      cursor: pointer;
+    }
+  }
+}

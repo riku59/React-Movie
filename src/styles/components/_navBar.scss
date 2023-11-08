@@ -1,6 +1,6 @@
 .navBar {
   display: grid;
-  grid-template-columns: 45% 55%;
+  grid-template-columns: 42% 58%;
   align-items: center;
   ul {
     display: flex;
@@ -16,5 +16,6 @@
   h1 {
     font-size: 70px;
     font-family: "Dongle-regular", serif;
+    text-shadow: 4px 1px 11px blue;
   }
 }
