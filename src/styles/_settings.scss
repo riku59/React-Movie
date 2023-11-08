@@ -1,0 +1,24 @@
+$color1: blue;
+$color2: rgb(105, 103, 103);
+$color3: grey;
+$color4: rgb(248, 227, 227);
+
+@font-face {
+  font-family: "Dongle-Light";
+  src: url(../fonts/Dongle-Light.ttf);
+}
+@font-face {
+  font-family: "Dongle-Regular";
+  src: url(../fonts/Dongle-Regular.ttf);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: $color4;
+  font-family: "Dongle-Light", serif;
+}
+body {
+  background: $color2;
+}

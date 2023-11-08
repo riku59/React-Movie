@@ -1,0 +1,20 @@
+.navBar {
+  display: grid;
+  grid-template-columns: 45% 55%;
+  align-items: center;
+  ul {
+    display: flex;
+    gap: 15px;
+
+    a {
+      list-style-type: none;
+      text-decoration: none;
+      margin-left: 20px;
+      font-size: 30px;
+    }
+  }
+  h1 {
+    font-size: 70px;
+    font-family: "Dongle-regular", serif;
+  }
+}
