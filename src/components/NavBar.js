@@ -6,10 +6,16 @@ const NavBar = () => {
     <div className="navBar">
       <nav>
         <ul>
-          <NavLink to="/">
+          <NavLink
+            to="/"
+            className={(nav) => (nav.isActive ? "nav-active" : "")}
+          >
             <li>Accueil</li>
           </NavLink>
-          <NavLink to="coups-de-coeur">
+          <NavLink
+            to="/coups-de-coeur"
+            className={(nav) => (nav.isActive ? "nav-active" : "")}
+          >
             <li>Coups de coeur</li>
           </NavLink>
         </ul>

@@ -1,22 +1,46 @@
 .search-movie {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 40px;
-  input {
-    width: 350px;
-    border-radius: 10px 10px 0 0;
-    border: none;
-    text-align: center;
-  }
-  button {
-    background: $color1;
-    width: 350px;
-    border-radius: 0 0 10px 10px;
-    border: none;
-    &:hover {
-      background: $color2;
-      cursor: pointer;
+  .form-container {
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 30px;
+      input {
+        width: 300px;
+        border-radius: 10px 10px 0 0;
+        border: none;
+        text-align: center;
+      }
+      .button {
+        background: $color1;
+        width: 300px;
+        border-radius: 0 0 10px 10px;
+        border: none;
+        &:hover {
+          background: $color5;
+          cursor: pointer;
+        }
+      }
     }
+    .btn-sort-container {
+      display: flex;
+      justify-content: space-evenly;
+      background: $color1;
+      margin: 0 auto;
+      width: 300px;
+
+      border-radius: 50px;
+      text-align: center;
+
+      margin-top: 10px;
+    }
+  }
+  .result {
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 20px;
+
+    // grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
   }
 }
