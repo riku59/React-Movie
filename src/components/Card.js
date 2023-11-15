@@ -34,18 +34,20 @@ const Card = ({ movie }) => {
     37: "Western",
   };
 
+  const addStorage = () => {
+    let storedData = window.localStorage.movies
+      ? window.localStorage.movies.split(",")
+      : [];
+
+    if (!storedData.includes(movie.id.toString())) {
+      // vérifie qu'il n'y a pas déja le film ajouté
+      storedData.push(movie.id); // faire un push pour évité d'écraser les données.
+      window.localStorage.movies = storedData;
+    }
+  };
+
   // Transformer les identifiants de genre en noms de genre
   const genres = movie.genre_ids.map((genreId) => genreMap[genreId]);
-
-  const [showFullSynopsis, setShowFullSynopsis] = useState(false);
-
-  const toggleSynopsis = () => {
-    setShowFullSynopsis(!showFullSynopsis);
-  };
-
-  const resetSynopsis = () => {
-    setShowFullSynopsis(false);
-  };
 
   return (
     <div className="card">
@@ -56,11 +58,12 @@ const Card = ({ movie }) => {
               ? "https://image.tmdb.org/t/p/original/" + movie.poster_path
               : "./img/poster.jpg"
           }
-          alt="affiche film"
+          alt={`affiche ${movie.title}`}
         />
       </div>
       <h3>{movie.title}</h3>
-      <p>sortie le: {formattedReleaseDate}</p>
+      {formattedReleaseDate ? <p>sortie le: {formattedReleaseDate}</p> : null}
+
       <div className="note">
         <p>{roundedVoteAverage} / 10 </p> <span>⭐</span>
       </div>
@@ -73,18 +76,10 @@ const Card = ({ movie }) => {
         ))}
       </div>
       <h3>Stnopsis :</h3>
-      <p className={showFullSynopsis ? "synopsis" : "synopsis-truncated"}>
-        {movie.overview}
-      </p>
-      {showFullSynopsis ? (
-        <button onClick={resetSynopsis} className="read-more-button">
-          Lire moins
-        </button>
-      ) : (
-        <button onClick={toggleSynopsis} className="read-more-button">
-          Lire plus
-        </button>
-      )}
+      <p className={"synopsis-truncated"}>{movie.overview}</p>
+      <div className="btn-love" onClick={() => addStorage()}>
+        Ajouter aux coups de coeur
+      </div>
     </div>
   );
 };
