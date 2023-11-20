@@ -3,10 +3,15 @@ import React, { useState } from "react";
 
 const Card = ({ movie }) => {
   // Convertir la chaîne de caractères de la date en objet Date
-  const releaseDate = new Date(movie.release_date);
+  const releaseDate =
+    movie.release_date && !isNaN(Date.parse(movie.release_date))
+      ? new Date(movie.release_date)
+      : null;
 
   // Formater la date comme désiré (par exemple, en "dd-MM-yyyy")
-  const formattedReleaseDate = format(releaseDate, "dd/MM/yyyy");
+  const formattedReleaseDate = releaseDate
+    ? format(releaseDate, "dd/MM/yyyy")
+    : "";
 
   // Couper le chiffre à la dixième décimale
   const roundedVoteAverage = movie.vote_average.toFixed(1);
@@ -36,7 +41,7 @@ const Card = ({ movie }) => {
 
   const addStorage = () => {
     let storedData = window.localStorage.movies
-      ? window.localStorage.movies.split(",")
+      ? window.localStorage.movies.split(",").map((id) => parseInt(id, 10))
       : [];
 
     if (!storedData.includes(movie.id.toString())) {
@@ -47,7 +52,9 @@ const Card = ({ movie }) => {
   };
 
   // Transformer les identifiants de genre en noms de genre
-  const genres = movie.genre_ids.map((genreId) => genreMap[genreId]);
+  const genres =
+    (movie.genre_ids && movie.genre_ids.map((genreId) => genreMap[genreId])) ||
+    [];
 
   return (
     <div className="card">
@@ -62,7 +69,11 @@ const Card = ({ movie }) => {
         />
       </div>
       <h3>{movie.title}</h3>
-      {formattedReleaseDate ? <p>sortie le: {formattedReleaseDate}</p> : null}
+      {formattedReleaseDate ? (
+        <p>sortie le: {formattedReleaseDate}</p>
+      ) : (
+        <p></p>
+      )}
 
       <div className="note">
         <p>{roundedVoteAverage} / 10 </p> <span>⭐</span>
@@ -75,7 +86,7 @@ const Card = ({ movie }) => {
           </div>
         ))}
       </div>
-      <h3>Stnopsis :</h3>
+      <h3>Synopsis :</h3>
       <p className={"synopsis-truncated"}>{movie.overview}</p>
       <div className="btn-love" onClick={() => addStorage()}>
         Ajouter aux coups de coeur
