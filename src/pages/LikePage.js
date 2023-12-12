@@ -1,41 +1,33 @@
-import React, { useEffect, useState } from "react";
-import NavBar from "../components/NavBar";
+import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
+import Header from "../components/Header";
 import axios from "axios";
 import Card from "../components/Card";
+import { cleanup } from "@testing-library/react";
 
 const LikePage = () => {
   const [listData, setListData] = useState([]);
 
   useEffect(() => {
-    let movieArray = [];
     let moviesId = window.localStorage.movies
       ? window.localStorage.movies.split(",")
       : [];
 
-    Promise.all(
-      moviesId.map((id) =>
-        axios
-          .get(
-            `https://api.themoviedb.org/3/movie/${id}?api_key=59c994c98aa80d4924f31c3b2d6c1cc5`
-          )
-          .then((res) => res.data)
-      )
-    )
-      .then((movies) => setListData(movies))
-      .catch((error) => {
-        console.error(
-          "Erreur lors de la récupération des données du film :",
-          error
-        );
-        setListData([]); // Définir un tableau vide en cas d'erreur
-      });
+    for (let i = 0; i < moviesId.length; i++) {
+      axios
+        .get(
+          `https://api.themoviedb.org/3/movie/${moviesId[i]}?api_key=ed82f4c18f2964e75117c2dc65e2161d&language=fr-FR`
+        )
+        .then((res) => setListData((listData) => [...listData, res.data]));
+    }
   }, []);
 
   return (
-    <div className="like-page">
-      <NavBar />
+    <div className="user-list-page">
+      <Header />
       <h2>
-        Coups de coeur <span>❤</span>
+        Coups de coeur <span>💖</span>
       </h2>
       <div className="result">
         {listData.length > 0 ? (

@@ -1,5 +1,6 @@
 @import "./settings";
-@import "./components/navBar";
-@import "./components/searchMovie";
+@import "./pages/home";
+@import "./pages/userList";
+@import "./components/header";
+@import "./components/form";
 @import "./components/card";
-@import "./pages/likePage";

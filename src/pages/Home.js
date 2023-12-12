@@ -1,12 +1,12 @@
 import React from "react";
-import NavBar from "../components/NavBar";
-import SearchMovie from "../components/SearchMovie";
+import Form from "../components/Form";
+import Header from "../components/Header";
 
 const Home = () => {
   return (
     <div className="home-page">
-      <NavBar />
-      <SearchMovie />
+      <Header />
+      <Form />
     </div>
   );
 };

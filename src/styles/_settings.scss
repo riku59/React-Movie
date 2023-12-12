@@ -1,26 +1,38 @@
-$color1: #5670e6;
-$color2: rgb(33, 27, 59);
-$color3: grey;
-$color4: rgb(248, 227, 227);
-$color5: #080b2c;
+@font-face {
+  font-family: "font-1";
+  src: url(../assets/assets/fonts/Dongle-Regular.ttf);
+}
+@font-face {
+  font-family: "font-2";
+  src: url(../assets/assets/fonts/Dongle-Light.ttf);
+}
 
-@font-face {
-  font-family: "Dongle-Light";
-  src: url(../fonts/Dongle-Light.ttf);
-}
-@font-face {
-  font-family: "Dongle-Regular";
-  src: url(../fonts/Dongle-Regular.ttf);
-}
+$font-1: "font-1", sans-serif;
+$font-2: "font-2", sans-serif;
+
+$color-1: #546fe4;
+$color-2: #212040;
+$color-3: rgb(100, 100, 100);
+$black: #060d2c;
+$white: rgb(238, 238, 238);
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  color: $color4;
-  font-family: "Dongle-Light", serif;
-  font-size: 30px;
+  font-family: $font-1;
 }
+
 body {
-  background: $color2;
+  background: $color-2;
+  color: $white;
+}
+li {
+  list-style: none;
+}
+.result {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
 }

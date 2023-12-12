@@ -1,96 +1,138 @@
-import { format } from "date-fns";
-import React, { useState } from "react";
+import React from "react";
 
 const Card = ({ movie }) => {
-  // Convertir la chaîne de caractères de la date en objet Date
-  const releaseDate =
-    movie.release_date && !isNaN(Date.parse(movie.release_date))
-      ? new Date(movie.release_date)
-      : null;
+  const dateFormater = (date) => {
+    let [yy, mm, dd] = date.split("-");
+    return [dd, mm, yy].join("/");
+  };
 
-  // Formater la date comme désiré (par exemple, en "dd-MM-yyyy")
-  const formattedReleaseDate = releaseDate
-    ? format(releaseDate, "dd/MM/yyyy")
-    : "";
-
-  // Couper le chiffre à la dixième décimale
-  const roundedVoteAverage = movie.vote_average.toFixed(1);
-
-  // Table de correspondance entre les identifiants de genre et les noms de genre
-  const genreMap = {
-    28: "Action",
-    16: "Animation",
-    12: "Aventure",
-    35: "Comédie",
-    80: "Crime",
-    99: "Documentaire",
-    18: "Drame",
-    10751: "Familial",
-    14: "Fantastique",
-    10752: "Guerre",
-    36: "Histoire",
-    27: "Horreur",
-    10402: "Musique",
-    9648: "Mystère",
-    10749: "Romance",
-    878: "Science-Fiction",
-    53: "Thriller",
-    10770: "Téléfilm",
-    37: "Western",
+  const genreFinder = () => {
+    let genreArray = [];
+    for (let i = 0; i < movie.genre_ids.length; i++) {
+      switch (movie.genre_ids[i]) {
+        case 28:
+          genreArray.push(`Action`);
+          break;
+        case 12:
+          genreArray.push(`Aventure`);
+          break;
+        case 16:
+          genreArray.push(`Animation`);
+          break;
+        case 35:
+          genreArray.push(`Comédie`);
+          break;
+        case 80:
+          genreArray.push(`Policier`);
+          break;
+        case 99:
+          genreArray.push(`Documentaire`);
+          break;
+        case 18:
+          genreArray.push(`Drame`);
+          break;
+        case 10751:
+          genreArray.push(`Famille`);
+          break;
+        case 14:
+          genreArray.push(`Fantasy`);
+          break;
+        case 36:
+          genreArray.push(`Histoire`);
+          break;
+        case 27:
+          genreArray.push(`Horreur`);
+          break;
+        case 10402:
+          genreArray.push(`Musique`);
+          break;
+        case 9648:
+          genreArray.push(`Mystère`);
+          break;
+        case 10749:
+          genreArray.push(`Romance`);
+          break;
+        case 878:
+          genreArray.push(`Science-fiction`);
+          break;
+        case 10770:
+          genreArray.push(`Téléfilm`);
+          break;
+        case 53:
+          genreArray.push(`Thriller`);
+          break;
+        case 10752:
+          genreArray.push(`Guerre`);
+          break;
+        case 37:
+          genreArray.push(`Western`);
+          break;
+        default:
+          break;
+      }
+    }
+    return genreArray.map((genre) => <li key={genre}>{genre}</li>);
   };
 
   const addStorage = () => {
     let storedData = window.localStorage.movies
-      ? window.localStorage.movies.split(",").map((id) => parseInt(id, 10))
+      ? window.localStorage.movies.split(",")
       : [];
 
     if (!storedData.includes(movie.id.toString())) {
-      // vérifie qu'il n'y a pas déja le film ajouté
-      storedData.push(movie.id); // faire un push pour évité d'écraser les données.
+      storedData.push(movie.id);
       window.localStorage.movies = storedData;
     }
   };
 
-  // Transformer les identifiants de genre en noms de genre
-  const genres =
-    (movie.genre_ids && movie.genre_ids.map((genreId) => genreMap[genreId])) ||
-    [];
+  const deleteStorage = () => {
+    let storedData = window.localStorage.movies.split(",");
+    let newData = storedData.filter((id) => id != movie.id);
+
+    window.localStorage.movies = newData;
+  };
 
   return (
     <div className="card">
-      <div className="card-img">
-        <img
-          src={
-            movie.poster_path
-              ? "https://image.tmdb.org/t/p/original/" + movie.poster_path
-              : "./img/poster.jpg"
-          }
-          alt={`affiche ${movie.title}`}
-        />
-      </div>
-      <h3>{movie.title}</h3>
-      {formattedReleaseDate ? (
-        <p>sortie le: {formattedReleaseDate}</p>
+      <img
+        src={
+          movie.poster_path
+            ? "https://image.tmdb.org/t/p/original/" + movie.poster_path
+            : "./img/poster.jpg"
+        }
+        alt={`affiche ${movie.title}`}
+      />
+      <h2>{movie.title}</h2>
+      {movie.release_date ? (
+        <h5>Sorti le : {dateFormater(movie.release_date)}</h5>
+      ) : null}
+      <h4>
+        {movie.vote_average.toFixed(1)}/10 <span>⭐</span>
+      </h4>
+
+      <ul>
+        {movie.genre_ids
+          ? genreFinder()
+          : movie.genres.map((genre) => <li key={genre}>{genre.name}</li>)}
+      </ul>
+
+      {movie.overview ? <h3>Synopsis</h3> : ""}
+      <p>{movie.overview}</p>
+      {movie.genre_ids ? (
+        <div className="btn" onClick={() => addStorage()}>
+          Ajouter aux coups de coeur
+        </div>
       ) : (
-        <p></p>
+        <div
+          className="btn"
+          onClick={() => {
+            deleteStorage();
+            window.location.reload();
+          }}
+        >
+          Supprimer de la liste
+        </div>
       )}
-
-      <div className="note">
-        <p>{roundedVoteAverage} / 10 </p> <span>⭐</span>
-      </div>
-
-      <div className="genre">
-        {genres.map((genre, index) => (
-          <div key={index} className="genre-bubble">
-            {genre}
-          </div>
-        ))}
-      </div>
-      <h3>Synopsis :</h3>
-      <p className={"synopsis-truncated"}>{movie.overview}</p>
-      <div className="btn-love" onClick={() => addStorage()}>
-        Ajouter aux coups de coeur
-      </div>
     </div>
   );
 };
