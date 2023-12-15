@@ -12,7 +12,7 @@ const LikePage = () => {
   useEffect(() => {
     let moviesId = window.localStorage.movies
       ? window.localStorage.movies.split(",")
-      : [];
+      : [listData];
 
     for (let i = 0; i < moviesId.length; i++) {
       axios
@@ -33,7 +33,9 @@ const LikePage = () => {
       </h2>
       <div className="result">
         {listData.length > 0 ? (
-          listData.map((movie) => <Card movie={movie} key={movie.id} />)
+          listData.map((movie) => (
+            <Card movie={movie} key={movie.id} setListData={setListData} />
+          ))
         ) : (
           <h2>Aucun coup de coeur pour le moment</h2>
         )}

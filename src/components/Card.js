@@ -1,6 +1,7 @@
 import React from "react";
 
-const Card = ({ movie }) => {
+const Card = (props) => {
+  const { movie, setListData } = props;
   const dateFormater = (date) => {
     let [yy, mm, dd] = date.split("-");
     return [dd, mm, yy].join("/");
@@ -90,6 +91,9 @@ const Card = ({ movie }) => {
     let newData = storedData.filter((id) => id != movie.id);
 
     window.localStorage.movies = newData;
+    props.setListData((prevListData) =>
+      prevListData.filter((item) => item.id !== movie.id)
+    );
   };
 
   return (
