@@ -91,7 +91,7 @@ const Card = (props) => {
     let newData = storedData.filter((id) => id != movie.id);
 
     window.localStorage.movies = newData;
-    props.setListData((prevListData) =>
+    setListData((prevListData) =>
       prevListData.filter((item) => item.id !== movie.id)
     );
   };
@@ -131,7 +131,6 @@ const Card = (props) => {
           className="btn"
           onClick={() => {
             deleteStorage();
-            window.location.reload();
           }}
         >
           Supprimer de la liste
